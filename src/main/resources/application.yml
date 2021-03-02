@@ -1,0 +1,39 @@
+server:
+  port: 8761
+
+spring:
+  application:
+    name: dubbo-zuul
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      discovery:
+        server-addr: 10.128.134.135:8848
+
+zuul:
+  routes:
+    dubbo-client:
+      path: /client/**
+    auth-client:
+      path: /auth/**
+  host:
+    #\u8D85\u65F6\u65F6\u95F4\u914D\u7F6E
+    socket-timeout-millis: 6000
+    connect-timeout-millis: 6000
+
+#\u7194\u65AD\u5668
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 3000
+
+#\u8D1F\u8F7D\u5747\u8861[\u603B\u65F6\u95F4ribbonTimeout = (ribbonReadTimeout + ribbonConnectTimeout) * (maxAutoRetries + 1) * (maxAutoRetriesNextServer + 1)]
+ribbon:
+  #\u94FE\u63A5\u8D85\u65F6\u65F6\u95F4\u914D\u7F6E
+  ConnectTimeout: 2500
+  #\u8BBF\u95EE\u8D85\u65F6\u65F6\u95F4\u8BBE\u7F6E
+  ReadTimeout: 2500
